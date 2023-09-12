@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>Menu</title>
+    <h1>Menu</h1>
+</head>
+<body>
+    <form method="GET" action="/create?action=create_profile">
+        <input type="submit" value="Create profile  ">
+    </form>
+
+    <form method="POST" action="/read">
+        <input type="hidden" name="action" value="read">
+        <input type="submit" value="Read Profiles  ">
+    </form>
+
+    <form method="GET" action="/update">
+        <input type="hidden" name="action" value="update">
+        <input type="submit" value="Update Profiles">
+    </form>
+
+    <form method="GET" action="/delete">
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" value="Delete Profiles">
+    </form>
+
+</body>
+
+</html>

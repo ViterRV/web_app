@@ -1,0 +1,53 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Read</title>
+</head>
+<body>
+
+{% if profiles %}
+    <h1>Profiles</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+        {% for profile in profiles %}
+            <tr>
+                <td>{{ profile[0] }}</td>
+                <td>{{ profile[1] }}</td>
+                <td>{{ profile[2] }}</td>
+                <td>{{ profile[3] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No profiles available.</p>
+{% endif %}
+    <form method="GET" action="/read">
+        <input type="hidden" name="sort" value="name">
+        <input type="submit" value="Sorted Name">
+    </form>
+
+    <form method="GET" action="/read">
+        <input type="hidden" name="sort" value="email">
+        <input type="submit" value="Sorted Email">
+    </form>
+
+    <form method="GET" action="/update">
+        <input type="hidden" name="action" value="update">
+        <input type="submit" value="Update Profiles">
+    </form>
+
+    <form method="GET" action="/delete">
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" value="Delete Profiles">
+    </form>
+<button onclick="window.location.href='/'">Back to Menu</button>
+</body>
+</html>
+
+
+

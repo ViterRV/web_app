@@ -1,0 +1,27 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Create</title>
+    <h1>Create profile</h1>
+</head>
+<body>
+    <form method="POST">
+        <input type="hidden" name="action" value="create">
+        <label for="name">Input name:</label>
+        <input type="text" name="name" id="name">
+        <label for="email">Input email:</label>
+        <input type="text" name="email" id="email">
+        <label for="phone">Input phone number:</label>
+        <input type="text" name="phone" id="phone">
+        <input type="submit" value="Create profile">
+
+    </form>
+
+    <form method="POST" action="/read">
+        <input type="hidden" name="action" value="read">
+        <input type="submit" value="Read Profiles  ">
+    </form>
+
+<button onclick="window.location.href='/'">Back to Menu</button>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Delete</title>
+</head>
+<body>
+
+{% if profiles %}
+    <h1>Profiles</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+        {% for profile in profiles %}
+            <tr>
+                <td>{{ profile[0] }}</td>
+                <td>{{ profile[1] }}</td>
+                <td>{{ profile[2] }}</td>
+                <td>{{ profile[3] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No profiles available.</p>
+{% endif %}
+
+    <form method="POST">
+        <input type="hidden" name="action" value="update">
+        <label for="id">Input id:</label>
+        <input type="text" name="id" id="id">
+        <label for="name">Input name:</label>
+        <input type="text" name="name" id="name">
+        <label for="email">Input email:</label>
+        <input type="text" name="email" id="email">
+        <label for="phone">Input phone number:</label>
+        <input type="text" name="phone" id="phone">
+        <input type="submit" value="Update profile">
+
+    </form>
+
+    <form method="GET" action="/delete">
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" value="Delete Profiles">
+    </form>
+
+<button onclick="window.location.href='/'">Back to Menu</button>
+</body>
+</html>
+
+
+
+
