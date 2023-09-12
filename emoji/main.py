@@ -18,7 +18,7 @@ async def on_startup(_):
 
 
 class ProfileStates(StatesGroup): #клас що буде зберігати всі необхідні стани нашого бота
-    id = State()
+    id_update = State()
     id_delete = State()
     emoji = State()
     emoji1 = State()
@@ -53,7 +53,6 @@ async def delete(message: types.Message):
                              parse_mode=types.ParseMode.HTML)
 
     await ProfileStates.id_delete.set()
-
 @dp.message_handler(state=ProfileStates.id_delete)
 async def number_id_for_delete(message,state:FSMContext):
     try:
@@ -78,7 +77,7 @@ async def number_id_for_delete(message,state:FSMContext):
         else:
             await message.reply('Введіть коректне число')
     except ValueError:
-        await message.answer('Введіть коректне число')
+        await message.answer('Введіть коректне число1')
     await state.finish()
 
 
@@ -86,6 +85,7 @@ async def number_id_for_delete(message,state:FSMContext):
 async def start(message: types.Message):
     await message.answer("Привіт! Як справи? Обери свій стан!",
                         reply_markup=inline_kb)
+
     await ProfileStates.emoji.set()  # установлюмо стан емоції
 
 @dp.callback_query_handler(state=ProfileStates.emoji)
@@ -142,8 +142,8 @@ async def what_heppend(message: types.Message, state:FSMContext):
     async with state.proxy() as data:
         data['what_heppend'] = message.text
 
-    if 'id' in data:  # Перевірка наявності ключа 'id' в словнику data
-        await update_profile(state, id=data['id'], user_id=message.from_user.id, user_name=message.from_user.full_name,
+    if 'id_update' in data:  # Перевірка наявності ключа 'id' в словнику data
+        await update_profile(state, id=data['id_update'], user_id=message.from_user.id, user_name=message.from_user.full_name,
                              time=datetime.now())
         await message.answer('Запис відредаговано')
         await state.finish()
@@ -164,22 +164,36 @@ async def edit_records(message: types.Message):
         data = await read_db(user_id=message.from_user.id)
         await message.answer(text=f"<b>Список записів:</b>\n\n{data}\n\nВведіть номер ID запису для редагування",
                              parse_mode=types.ParseMode.HTML)
-    await ProfileStates.id.set()
 
-@dp.message_handler(state=ProfileStates.id)
+    await ProfileStates.id_update.set()
+
+@dp.message_handler(state=ProfileStates.id_update)
 async def number_id_for_update(message,state:FSMContext):
     try:
         id = int(message.text)
-        if id > 0 :
+        if id > 0:
             async with state.proxy() as data:
-                data['id'] = id
-            await message.answer('Виберіть емоцію', reply_markup=inline_kb)
-            await ProfileStates.next()
+                data['id_update'] = id
+            if message.from_user.id == 346422904:
+                data = await check_record(id=id)
+                if data == True:
+                    await message.answer('Виберіть емоцію', reply_markup=inline_kb)
+                    print(message.text)
+                    await ProfileStates.emoji.set()
+                else:
+                    await message.answer(f'Запису № {id} не існує')
+            else:
+                data = await check_record(id=id,user_id=message.from_user.id)
+                if data == True:
+                    await message.answer('Виберіть емоцію', reply_markup=inline_kb)
+                    print(message.text)
+                    await ProfileStates.emoji.set()
+                else:
+                    await message.answer(f'Запису № {id} не існує')
         else:
             await message.reply('Введіть коректне число')
     except ValueError:
         await message.answer('Введіть коректне число')
-
 
 
 executor.start_polling(dp,

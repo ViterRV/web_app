@@ -1,6 +1,6 @@
 import sqlite3 as sq
 
-db = sq.connect('emoji.db')
+db = sq.connect('db.db')
 cur = db.cursor()
 
 async def db_start():
@@ -82,87 +82,6 @@ async def check_record(id,user_id=None):
         return False
 
 
-
-
-
-
-
-"""async def update(user_id=None):
-    records = {}
-    if user_id:
-        cur.execute(
-            "SELECT * FROM emoji WHERE user_id = ?", (user_id,)
-        )
-        rows = cur.fetchall()
-
-        for row in rows:
-            id = row[0]
-            info = {
-                "ID": row[0],
-                "Ім'я": row[2],
-                "Час": row[3][:19],
-                "Емоція": f"{row[4], row[5]}",
-                "Бал": row[6],
-                "Що сталось": row[7]
-            }
-            records[id] = info
-        return records
-    else:
-        cur.execute("SELECT * FROM emoji ORDER BY user_name")
-        rows = cur.fetchall()
-        for row in rows:
-            id = row[0]
-            info = {
-                "Ім'я": row[2],
-                "Час": row[3][:19],
-                "Емоція": f"{row[4], row[5]}",
-                "Бал": row[6],
-                "Що сталось": row[7]
-            }
-            records[id] = info
-        return records
-
-"""
-
-'''records = {}
-
-    if user_id:
-        cur.execute(
-            "SELECT * FROM emoji WHERE user_id = ?", (user_id,)
-        )
-        rows = cur.fetchall()
-        for row in rows:
-            record_id = row[0]
-            record_info = {
-                "time": row[2][:19],
-                "emoji": f"{row[3]}, {row[4]}",
-                "value": row[5],
-                "what_happened": row[6]
-            }
-            records[record_id] = record_info
-    else:
-        cur.execute("SELECT * FROM emoji ORDER BY user_name")
-        rows = cur.fetchall()
-        for row in rows:
-            record_id = row[0]
-            record_info = {
-                "name": row[1],
-                "time": row[2][:19],
-                "emoji": f"{row[3]}, {row[4]}",
-                "value": row[5],
-                "what_happened": row[6]
-            }
-            records[record_id] = record_info
-
-    return records'''
-
-
-"""async def update_profile(state,id,user_id,user_name,time):
-    async with state.proxy() as data:
-        cur.execute("UPDATE emoji SET user_name= '{}',time= '{}', emoji= '{}',emoji1= '{}',value= '{}',what_heppend= '{}' WHERE id = '{}'".format(
-            user_id,user_name,time,data['emoji'],data['emoji1'],data['value'],data['what_heppend'],id))
-        db.commit()"""
-
 async def update_profile(state, id, user_id, user_name, time):
     async with state.proxy() as data:
         cur.execute(
@@ -177,8 +96,3 @@ async def delete_profile(id):
     )
     db.commit()
 
-"""async def create_profile(user_id,user_name,time):
-    user = cur.execute("SELECT 1 FROM emoji WHERE user_id =='{key}'".format(key=user_id)).fetchone()
-    if not user:
-        cur.execute("INSERT INTO emoji VALUES(?,?,?,?,?,?,?)",(user_id,user_name,time,'','','',''))
-        db.commit()"""
